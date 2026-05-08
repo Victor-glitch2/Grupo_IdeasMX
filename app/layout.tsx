@@ -21,6 +21,11 @@ export const metadata: Metadata = {
   title: 'Grupo Ideas MX | Creatividad y Tecnología Digital',
   description: 'Hacemos que la creatividad y la tecnología trabajen para ti en el mundo digital. Páginas web, marketing digital, diseño gráfico y más.',
   keywords: 'páginas web, marketing digital, diseño gráfico, desarrollo de apps, México',
+  icons: {
+    icon: '/favicon.png',
+    shortcut: '/favicon.png',
+    apple: '/favicon.png',
+  },
 }
 
 export default function RootLayout({

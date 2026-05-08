@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
@@ -56,10 +57,24 @@ export default function LegalPage() {
     <main className="min-h-screen bg-background">
       <Header />
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 md:pt-40 md:pb-28 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-6">
+      {/* Hero Section with Banner Image */}
+      <section className="pt-20 md:pt-24 relative overflow-hidden">
+        {/* Hero Banner Image */}
+        <div className="relative w-full h-[300px] md:h-[400px]">
+          <Image
+            src="/images/legal-hero.jpg"
+            alt="Servicios legales"
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/40 to-background" />
+        </div>
+        
+        {/* Hero Content */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-32 relative z-10 text-center pb-16">
+          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-6 backdrop-blur-sm">
             <Scale className="w-4 h-4" />
             CHECK - Division Legal
           </div>
@@ -115,7 +130,7 @@ export default function LegalPage() {
           </p>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {servicios.map((servicio, i) => {
+            {servicios.map((servicio) => {
               const Icon = servicio.icon
               return (
                 <div

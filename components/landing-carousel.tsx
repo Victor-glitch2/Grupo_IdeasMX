@@ -207,10 +207,10 @@ export function LandingCarousel() {
         <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
 
-        {/* Animated scroll container */}
+        {/* Animated scroll container - tripled for seamless infinite loop */}
         <div className="flex animate-scroll hover:[animation-play-state:paused]">
-          {/* Duplicate items for seamless loop */}
-          {[...landingItems, ...landingItems].map((item, index) => (
+          {/* Triple items for seamless infinite loop without jumps */}
+          {[...landingItems, ...landingItems, ...landingItems].map((item, index) => (
             <ProjectCard
               key={`${item.id}-${index}`}
               item={item}
@@ -232,18 +232,24 @@ export function LandingCarousel() {
         </Button>
       </div>
 
-      {/* CSS Animation */}
+      {/* CSS Animation - Infinite seamless loop */}
       <style jsx>{`
         @keyframes scroll {
           0% {
             transform: translateX(0);
           }
           100% {
-            transform: translateX(-50%);
+            transform: translateX(-33.333%);
           }
         }
         .animate-scroll {
-          animation: scroll 40s linear infinite;
+          animation: scroll 30s linear infinite;
+          will-change: transform;
+        }
+        @media (max-width: 768px) {
+          .animate-scroll {
+            animation: scroll 15s linear infinite;
+          }
         }
       `}</style>
     </section>
@@ -414,6 +420,8 @@ function ProjectCard({
                 alt={item.title}
                 fill
                 className="object-cover object-top"
+                loading="lazy"
+                sizes="340px"
               />
             ) : (
               // Generic website preview

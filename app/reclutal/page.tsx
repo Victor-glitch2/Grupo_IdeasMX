@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { ArrowRight, Users, Search, UserCheck, ClipboardList, FileText, Upload, CheckCircle } from "lucide-react"
+import { ArrowRight, Users, Search, UserCheck, ClipboardList, FileText, MessageCircle } from "lucide-react"
 
 const servicios = [
   { icon: Search, title: "Reclutamiento y Seleccion de Personal", color: "#3B82F6" },
@@ -18,13 +18,6 @@ const servicios = [
 
 export default function ReclutalPage() {
   const [scrollProgress, setScrollProgress] = useState(0)
-  const [formData, setFormData] = useState({
-    nombre: "",
-    email: "",
-    telefono: "",
-    puesto: "",
-    experiencia: "",
-  })
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,20 +28,33 @@ export default function ReclutalPage() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Handle form submission
-    console.log(formData)
+  const handleWhatsAppContact = () => {
+    const message = encodeURIComponent("Hola, me interesa conocer las oportunidades laborales disponibles. Adjunto mi CV.")
+    window.open(`https://wa.me/525575086614?text=${message}`, "_blank")
   }
 
   return (
     <main className="min-h-screen bg-background">
       <Header />
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 md:pt-40 md:pb-28 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-6">
+      {/* Hero Section with Banner Image */}
+      <section className="pt-20 md:pt-24 relative overflow-hidden">
+        {/* Hero Banner Image */}
+        <div className="relative w-full h-[300px] md:h-[400px]">
+          <Image
+            src="/images/reclutal-hero.jpg"
+            alt="Reclutamiento de personal"
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/40 to-background" />
+        </div>
+        
+        {/* Hero Content */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-32 relative z-10 text-center pb-16">
+          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-6 backdrop-blur-sm">
             <Users className="w-4 h-4" />
             Reclutal
           </div>
@@ -80,11 +86,9 @@ export default function ReclutalPage() {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline">
-              <Link href="#cv">
-                <Upload className="mr-2 h-5 w-5" />
-                Sube tu CV
-              </Link>
+            <Button size="lg" variant="outline" onClick={handleWhatsAppContact}>
+              <MessageCircle className="mr-2 h-5 w-5" />
+              Enviar CV por WhatsApp
             </Button>
           </div>
         </div>
@@ -122,109 +126,38 @@ export default function ReclutalPage() {
         </div>
       </section>
 
-      {/* CV Upload Form */}
+      {/* CV Section - WhatsApp Only */}
       <section id="cv" className="py-20">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 text-center font-[family-name:var(--font-display)]">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 font-[family-name:var(--font-display)]">
             Tu proximo empleo espera
           </h2>
-          <p className="text-muted-foreground text-center mb-12">
-            Completa el formulario y sube tu CV para conectar con las mejores oportunidades.
+          <p className="text-muted-foreground mb-8">
+            Envianos tu CV directamente por WhatsApp para conectar con las mejores oportunidades laborales.
           </p>
 
-          <form onSubmit={handleSubmit} className="bg-card border border-border rounded-2xl p-6 md:p-8 space-y-6">
-            <div>
-              <label htmlFor="nombre" className="block text-sm font-medium text-foreground mb-2">
-                Nombre completo *
-              </label>
-              <Input
-                id="nombre"
-                type="text"
-                required
-                value={formData.nombre}
-                onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
-                placeholder="Tu nombre completo"
-              />
+          <div className="bg-card border border-border rounded-2xl p-8 md:p-10">
+            <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center mx-auto mb-6">
+              <MessageCircle className="w-8 h-8 text-green-500" />
             </div>
-
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                Correo electronico
-              </label>
-              <Input
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                placeholder="tu@email.com"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="telefono" className="block text-sm font-medium text-foreground mb-2">
-                Numero telefonico *
-              </label>
-              <Input
-                id="telefono"
-                type="tel"
-                required
-                value={formData.telefono}
-                onChange={(e) => setFormData({ ...formData, telefono: e.target.value })}
-                placeholder="55 1234 5678"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="puesto" className="block text-sm font-medium text-foreground mb-2">
-                Puesto Solicitado *
-              </label>
-              <Input
-                id="puesto"
-                type="text"
-                required
-                value={formData.puesto}
-                onChange={(e) => setFormData({ ...formData, puesto: e.target.value })}
-                placeholder="Ej: Desarrollador Frontend"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="experiencia" className="block text-sm font-medium text-foreground mb-2">
-                Anos de experiencia
-              </label>
-              <Input
-                id="experiencia"
-                type="text"
-                value={formData.experiencia}
-                onChange={(e) => setFormData({ ...formData, experiencia: e.target.value })}
-                placeholder="Ej: 3 anos"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="cv" className="block text-sm font-medium text-foreground mb-2">
-                Sube tu CV *
-              </label>
-              <div className="border-2 border-dashed border-border rounded-xl p-8 text-center hover:border-primary/50 transition-colors cursor-pointer">
-                <Upload className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
-                <p className="text-sm text-muted-foreground mb-1">
-                  Arrastra tu archivo aqui o haz clic para seleccionar
-                </p>
-                <p className="text-xs text-muted-foreground">PDF, DOC, DOCX (Max. 5MB)</p>
-                <input
-                  id="cv"
-                  type="file"
-                  accept=".pdf,.doc,.docx"
-                  className="hidden"
-                />
-              </div>
-            </div>
-
-            <Button type="submit" size="lg" className="w-full bg-primary text-primary-foreground">
-              Enviar
-              <ArrowRight className="ml-2 h-5 w-5" />
+            <h3 className="text-xl font-semibold text-foreground mb-3">
+              Envia tu CV por WhatsApp
+            </h3>
+            <p className="text-muted-foreground mb-6">
+              Haz clic en el boton de abajo para abrir WhatsApp. Incluye tu CV en formato PDF junto con el mensaje y te contactaremos pronto.
+            </p>
+            <Button 
+              size="lg" 
+              className="bg-green-500 hover:bg-green-600 text-white w-full sm:w-auto"
+              onClick={handleWhatsAppContact}
+            >
+              <MessageCircle className="mr-2 h-5 w-5" />
+              Enviar CV por WhatsApp
             </Button>
-          </form>
+            <p className="text-xs text-muted-foreground mt-4">
+              Recuerda adjuntar tu CV en formato PDF o Word al mensaje de WhatsApp
+            </p>
+          </div>
         </div>
       </section>
 
